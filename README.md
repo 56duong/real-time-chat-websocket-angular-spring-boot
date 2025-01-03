@@ -10,10 +10,11 @@ While the code may not be perfect and may still contain bugs, the goal is to pro
 1. [Demo](#demo)
 2. [Features](#features)
 3. [Tech Stack Versions](#tech-stack-versions)
-4. [YouTube Series](#youtube-series)
-5. [Who i am?](#who-i-am)
-6. [License](#license)
-7. [Contact](#contact)
+4. [Database](#database)
+5. [YouTube Series](#youtube-series)
+6. [Who i am?](#who-i-am)
+7. [License](#license)
+8. [Contact](#contact)
 
 
 ## 🎥 Demo
@@ -57,6 +58,12 @@ Please note that the versions listed below are the ones used during the developm
 - **npm**: 10.5.0
   
 - **PrimeNG**: 17.18.9
+
+
+## 🗂️ Database
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4114b2cc-9527-4741-9e35-e65410832bdd" alt="56duong/real-time-chat-websocket-angular-spring-boot/database" />
+</p>
 
 
 ## 🎥 YouTube Series
