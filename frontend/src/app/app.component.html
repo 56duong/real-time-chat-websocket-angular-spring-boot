@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+  <!-- Google icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <div class="header-account">
+        <div class="online">
+          <img style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%;"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+        </div>
+        <div class="header-username">56duong</div>
+        <!-- new messages -->
+        <span class="material-symbols-rounded">add_circle</span>
+      </div>
+      <div class="header-title">
+        dung
+        <span class="header-title-small">Online</span>
+      </div>
+      <div class="header-setting">
+        <span class="material-symbols-rounded">logout</span>
+        <span class="header-logout">Logout</span>
+      </div>
+    </div>
+  
+    <div class="container">
+      <!-- Left side -->
+      <div class="conversation-area">
+        <!-- Active users -->
+        <div class="conversation-active-users-wrapper">
+          <!-- Title -->
+          <div class="conversation-active-users-title">
+            Active users
+          </div>
+          <!-- List -->
+          <div class="conversation-active-users">
+            <div class="active-user">
+              <div class="online">
+                <img style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%;"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+              </div>
+              <small>You</small>
+            </div>
+            <div class="active-user">
+              <div class="online">
+                <img style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%;"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+              </div>
+              <small>dung</small>
+            </div>
+            <div class="active-user">
+              <div class="online">
+                <img style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%;"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+              </div>
+              <small>cuong</small>
+            </div>
+          </div>
+        </div>
+        
+        <!-- conversations -->
+        <div class="conversations">
+          <div class="conversation selected" style="font-weight: normal;">
+            <!-- Avatar -->
+            <div class="online">
+              <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
+                src="https://primefaces.org/cdn/primeng/images/landing/avatar.png" alt="">
+            </div>
+            <!-- Last message -->
+            <div class="conversation-detail">
+              <div class="conversation-username">dung</div>
+              <div class="conversation-content">
+                <span>
+                  Hi there
+                </span>
+                <span class="conversation-date">
+                  <span>•</span>
+                  18m
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="conversation" style="font-weight: 900;">
+            <!-- Avatar -->
+            <div class="online">
+              <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+            </div>
+            <!-- Last message -->
+            <div class="conversation-detail">
+              <div class="conversation-username">nhommcuatoi</div>
+              <div class="conversation-content">
+                cuong&nbsp;
+                <span>create this group.</span>
+                <span class="conversation-date">
+                  <span>•</span>
+                  18m
+                </span>
+              </div>
+            </div>
+            <!-- Unseen count -->
+            <div class="conversation-unseen">
+              3
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Chat area -->
+      <div class="chat-area" id="chat-area">
+        <div class="message-list" style="flex-grow: 1;">
+          <div class="chat-message">
+            <div class="online">
+              <img style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+            </div>
+            <div class="chat-message-content"
+              title="12:12:12 11/11/2024">
+              <div class="chat-message-username">dung</div>
+              <div class="chat-message-text">Xin Chào</div>
+            </div>
+          </div>
+          <div class="chat-message">
+            <div class="online">
+              <img style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+            </div>
+            <div class="chat-message-content"
+              title="12:12:12 11/11/2024">
+              <div class="chat-message-username">dung</div>
+              <div class="chat-message-text">Hi</div>
+            </div>
+          </div>
+          <div class="chat-message owner">
+            <div class="online">
+              <img style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+            </div>
+            <div class="chat-message-content"
+              title="12:12:12 11/11/2024">
+              <div class="chat-message-username">dung</div>
+              <div class="chat-message-text">Ok</div>
+            </div>
+          </div>
+        </div>
+        <!-- Scroll to Unseen messages -->
+        <div style="text-align: center;">
+          <span class="material-symbols-rounded">arrow_upward</span>
+        </div>
+        <!-- Chat footer -->
+        <form class="chat-footer">
+          <div class="other-list">
+            <div class="emoji">
+              <span class="material-symbols-rounded">mood</span>
+            </div>
+          </div>
+          <input type="text" class="p-inputtext" id="message-input" placeholder="Type something here..." name="content" autofocus/>
+          <span class="send-button material-symbols-rounded">send</span>
+        </form>
+      </div>
+    
+      <!-- Right side -->
+      <div class="detail-area">
+        <div class="detail-header">
+          <div class="online">
+            <img style="width: 64px; height: 64px; object-fit: cover; border-radius: 50%;"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+          </div>
+          <div class="detail-title">
+            <div class="detail-group-name">dung</div>
+            <span class="pi pi-pen-to-square cursor-pointer"></span>
+          </div>
+          <span class="detail-subtitle">Created by dung, 30m</span>
+        </div>
+  
+        <div class="theme">
+          <div class="theme-mode">
+            <p>Dark mode</p>
+            <input type="checkbox" />
+          </div>
+          <div class="theme-color">
+            <p>Color</p>
+            <select id="themeColorSelect">
+              <option value="blue">Blue</option>
+              <option value="green">Green</option>
+              <option value="red">Red</option>
+            </select>
+          </div>
+        </div>
+    
+        <div class="detail-members">
+          <div class="detail-members-header">
+            <div class="detail-member-title">Members</div>
+            <span class="detail-member-add">Add members</span>
+          </div>
+          <div class="detail-members-list">
+            <div class="detail-member">
+              <div class="online">
+                <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+              </div>
+              <div class="detail-member-detail">
+                <div class="detail-member-username">56duong</div>
+                <span class="detail-member-subtitle">Admin</span>
+              </div>
+              <span class="material-symbols-rounded">more_vert</span>
+            </div>
+            <div class="detail-member">
+              <div class="online">
+                <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+              </div>
+              <div class="detail-member-detail">
+                <div class="detail-member-username">dung</div>
+              </div>
+              <span class="material-symbols-rounded">more_vert</span>
+            </div>
+          </div>
+        </div>
+  
+        <div class="leave-group">
+          <p>
+            <span class="material-symbols-rounded">logout</span>
+            Leave group
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
