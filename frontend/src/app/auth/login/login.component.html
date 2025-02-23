@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <form>
+    <h1>Login</h1>
+    <div class="p-fluid">
+      <input [(ngModel)]="user.username" type="text" pInputText placeholder="Username" name="username">
+    </div>
+    <div class="p-fluid">
+      <p-password [(ngModel)]="user.password" placeholder="Password" [feedback]="false" [toggleMask]="true" name="password" />
+    </div>
+    <div class="p-fluid mt-2">
+      <p-button (click)="login()" label="Login" [disabled]="!user.username || !user.password"></p-button>
+    </div>
+  </form>
+</div>
