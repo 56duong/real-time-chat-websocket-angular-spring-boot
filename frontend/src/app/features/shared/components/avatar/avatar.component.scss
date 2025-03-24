@@ -1,0 +1,15 @@
+.online {
+  position: relative;
+}
+
+.online:before {
+  content: "";
+  position: absolute;
+  background-color: #23be7e;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--surface-0);
+  right: 2px;
+  bottom: 2px;
+}

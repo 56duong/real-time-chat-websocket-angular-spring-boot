@@ -1,0 +1,29 @@
+/* ---------------------------- active-users-list --------------------------- */
+
+.conversation-active-users-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  padding: 0 0 8px 16px;
+}
+
+.conversation-active-users {
+  display: flex;
+  overflow-x: scroll;
+  width: 100%;
+  padding: 8px;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.conversation-active-users::-webkit-scrollbar {
+  display: none;
+}
+
+.active-user {
+  padding: 0 4px;
+  text-align: center;
+}
+
+.active-user small {
+  font-size: 0.875rem;
+}
+

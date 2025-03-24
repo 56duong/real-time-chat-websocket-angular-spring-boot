@@ -37,36 +37,9 @@
       <!-- Left side -->
       <div class="conversation-area">
         <!-- Active users -->
-        <div class="conversation-active-users-wrapper">
-          <!-- Title -->
-          <div class="conversation-active-users-title">
-            Active users
-          </div>
-          <!-- List -->
-          <div class="conversation-active-users">
-            <div class="active-user">
-              <div class="online">
-                <img style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%;"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
-              </div>
-              <small>You</small>
-            </div>
-            <div class="active-user">
-              <div class="online">
-                <img style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%;"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
-              </div>
-              <small>dung</small>
-            </div>
-            <div class="active-user">
-              <div class="online">
-                <img style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%;"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
-              </div>
-              <small>cuong</small>
-            </div>
-          </div>
-        </div>
+        <app-active-users-list
+          [currentUser]="currentUser">
+        </app-active-users-list>
         
         <!-- conversations -->
         <div class="conversations">

@@ -1,0 +1,6 @@
+<div [class.online]="isOnline !== undefined
+                      ? isOnline
+                      : userService.getUserStatus(username)">
+  <img style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%;"
+    [src]="avatarUrl" alt="">
+</div>

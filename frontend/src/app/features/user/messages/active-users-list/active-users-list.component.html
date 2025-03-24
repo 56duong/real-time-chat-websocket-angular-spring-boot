@@ -1,0 +1,34 @@
+<div class="conversation-active-users-wrapper">
+  <!-- Title -->
+  <div class="conversation-active-users-title">
+    Active users
+  </div>
+  <!-- List -->
+  <div class="conversation-active-users">
+    <div class="active-user">
+      <app-avatar 
+        [width]="'56px'" 
+        [isOnline]="true" 
+        [username]="currentUser.username" 
+        [avatarUrl]="currentUser.avatarUrl">
+      </app-avatar>
+      <!-- <div class="online">
+        <img style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%;"
+          [src]="currentUser.avatarUrl" alt="">
+      </div> -->
+      <small>You</small>
+    </div>
+
+    <ng-container *ngFor="let u of activeUsers">
+      <div *ngIf="u.username !== currentUser.username" class="active-user">
+        <app-avatar 
+          [width]="'56px'" 
+          [isOnline]="true" 
+          [username]="u.username" 
+          [avatarUrl]="u.avatarUrl">
+        </app-avatar>
+        <small>{{u.username}}</small>
+      </div>
+    </ng-container>
+  </div>
+</div>

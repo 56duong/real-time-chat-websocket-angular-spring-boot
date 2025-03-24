@@ -27,16 +27,15 @@ export class MessagesComponent {
     this.currentUser = this.userService.getFromLocalStorage();
 
     this.userService.connect(this.currentUser);
-
-    this.activeUsersSubscription = this.userService.subscribeActiveUsers().subscribe({
-      next: (user: User) => {
-        console.log(user);
-      },
-      error(err) {
-        console.log(err);
-      },
-    });
     
+    window.addEventListener('beforeunload', () => {
+      this.userService.disconnect(this.currentUser);
+    });
+  }
+
+
+  ngOnDestroy() {
+    this.userService.disconnect(this.currentUser);
   }
 
 }

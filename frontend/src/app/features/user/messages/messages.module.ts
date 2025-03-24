@@ -3,15 +3,19 @@ import { CommonModule } from '@angular/common';
 
 import { MessagesRoutingModule } from './messages-routing.module';
 import { MessagesComponent } from './messages.component';
+import { ActiveUsersListComponent } from './active-users-list/active-users-list.component';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
   declarations: [
-    MessagesComponent
+    MessagesComponent,
+    ActiveUsersListComponent
   ],
   imports: [
     CommonModule,
-    MessagesRoutingModule
+    MessagesRoutingModule,
+    SharedModule
   ]
 })
 export class MessagesModule { }
