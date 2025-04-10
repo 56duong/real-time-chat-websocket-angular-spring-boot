@@ -73,6 +73,15 @@ public class UserService {
         return user.map(u -> userMapper.toDTO(u, new UserDTO())).orElse(null);
     }
 
+
+
+    public List<UserDTO> searchUsersByUsername(final String username) {
+        return userRepository.findAllByUsernameContainingIgnoreCase(username)
+                .stream()
+                .map(u -> userMapper.toDTO(u, new UserDTO()))
+                .toList();
+    }
+
 }
 
 

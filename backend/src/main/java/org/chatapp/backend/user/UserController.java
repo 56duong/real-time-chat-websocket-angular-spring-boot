@@ -42,4 +42,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getOnlineUsers());
     }
 
+
+
+    @GetMapping("/search/{username}")
+    public ResponseEntity<List<UserDTO>> searchUsersByUsername(@PathVariable final String username) {
+        return ResponseEntity.ok(userService.searchUsersByUsername(username));
+    }
+
 }

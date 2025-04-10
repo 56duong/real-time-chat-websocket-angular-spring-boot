@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { MessageRoom } from 'src/app/core/interfaces/message-room';
 import { User } from 'src/app/core/interfaces/user';
+import { MessageRoomService } from 'src/app/core/services/message-room.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -16,10 +18,12 @@ export class MessagesComponent {
 
   currentUser: User = {};
   activeUsersSubscription: any;
+  isShowDialogChat: boolean = false;
 
 
   constructor(
     private userService: UserService,
+    private messageRoomService: MessageRoomService,
   ) {}
 
 
@@ -36,6 +40,42 @@ export class MessagesComponent {
 
   ngOnDestroy() {
     this.userService.disconnect(this.currentUser);
+  }
+
+
+
+  chat(selectedUsers: User[]) {
+    console.log(selectedUsers);
+    this.isShowDialogChat = false;
+
+    const usernames = selectedUsers.map(u => u.username).filter((u): u is string => u !== undefined);
+    this.messageRoomService.findMessageRoomByMembers(usernames).subscribe({
+      next: (foundMessageRoom: MessageRoom) => {
+        if(!foundMessageRoom) {
+          if(!this.currentUser.username) return;
+          this.messageRoomService.createChatRoom(this.currentUser.username, usernames).subscribe({
+            next: (createdMessageRoom: MessageRoom) => {
+              console.log(createdMessageRoom);
+              
+              if(!this.currentUser.username) return;
+              this.messageRoomService.findMessageRoomAtLeastOneContent(this.currentUser.username).subscribe({
+                next: (rooms: MessageRoom[]) => {
+                  console.log(rooms);
+                }, error: (error) => {
+                  console.log(error);
+                }
+              });
+            },
+            error: (error) => {
+              console.log(error);
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
 }

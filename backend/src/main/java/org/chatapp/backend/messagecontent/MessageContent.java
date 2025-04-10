@@ -2,6 +2,7 @@ package org.chatapp.backend.messagecontent;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.chatapp.backend.messageroom.MessageRoom;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@Builder
 public class MessageContent {
     @Id
     @GeneratedValue(generator = "UUID", strategy = GenerationType.AUTO)

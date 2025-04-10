@@ -120,4 +120,11 @@ export class UserService {
     return this.activeUsers[username] === 'ONLINE';
   }
 
+
+
+  searchUsersByUsername(username: string): Observable<User[]> {
+    const url = this.apiUrl + '/search/' + username;
+    return this.http.get<User[]>(url);
+  }
+
 }

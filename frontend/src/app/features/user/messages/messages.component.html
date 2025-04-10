@@ -16,12 +16,16 @@
     <div class="header">
       <div class="header-account">
         <div class="online">
-          <img style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%;"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+          <app-avatar 
+            [width]="'48px'" 
+            [isOnline]="true" 
+            [username]="currentUser.username" 
+            [avatarUrl]="currentUser.avatarUrl">
+          </app-avatar>
         </div>
-        <div class="header-username">56duong</div>
+        <div class="header-username">{{currentUser.username}}</div>
         <!-- new messages -->
-        <span class="material-symbols-rounded">add_circle</span>
+        <span (click)="isShowDialogChat = true" class="material-symbols-rounded">add_circle</span>
       </div>
       <div class="header-title">
         dung
@@ -212,3 +216,12 @@
   </div>
 </body>
 </html>
+
+
+
+<app-select-users-dialog
+  [visible]="isShowDialogChat"
+  [currentUsername]="currentUser.username"
+  (onHideEvent)="isShowDialogChat = false"
+  (onSubmitEvent)="chat($event)">
+</app-select-users-dialog>

@@ -87,7 +87,7 @@ body {
 .header-account {
   display: flex;
   align-items: center;
-  width: calc(340px - 32px);
+  width: 340px;
   padding: 16px;
   border-right: 1px solid var(--surface-border);
 }
@@ -124,7 +124,7 @@ body {
   justify-content: flex-end;
   gap: 3px;
   cursor: pointer;
-  width: calc(400px - 32px);
+  width: 340px;
 }
 
 .container {

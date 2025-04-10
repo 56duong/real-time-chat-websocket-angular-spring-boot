@@ -2,6 +2,7 @@ package org.chatapp.backend.messageroommember;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.chatapp.backend.messageroom.MessageRoom;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @IdClass(MessageRoomMemberKey.class)
+@Builder
 public class MessageRoomMember {
     @Id
     @ManyToOne

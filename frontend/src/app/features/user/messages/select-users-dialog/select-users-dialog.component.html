@@ -1,0 +1,34 @@
+<p-dialog 
+  (onHide)="onHide()"
+  header="Edit Profile" 
+  [modal]="true" 
+  [(visible)]="visible" 
+  [style]="{ width: '25rem' }">
+
+  <div class="p-fluid">
+    <p-autoComplete
+      [(ngModel)]="selectedUsers"
+      [suggestions]="searchedUsers"
+      (completeMethod)="onSearch($event)"
+      [multiple]="true"
+      optionLabel="username"
+      appendTo="body">
+      <ng-template let-user pTemplate="item">
+        <div *ngIf="user.username != currentUsername" class="flex align-items-center gap-2">
+          <app-avatar 
+            [width]="'28px'"
+            [username]="user.username" 
+            [avatarUrl]="user.avatarUrl">
+          </app-avatar>
+          <div>{{ user.username }}</div>
+        </div>
+      </ng-template>
+    </p-autoComplete>
+  </div>
+
+  <div class="flex justify-content-end gap-2 mt-3">
+    <p-button label="Cancel" severity="secondary" (onClick)="onHide()" />
+    <p-button label="Chat" (onClick)="onSubmit()" />
+  </div>
+
+</p-dialog>
