@@ -43,7 +43,6 @@ public class MessageRoomService {
 
         final List<User> users = userRepository.findAllByUsernameIn(members);
 
-        users.add(user);
         users.forEach(u -> {
             final MessageRoomMember messageRoomMember = MessageRoomMember.builder()
                                                         .messageRoom(messageRoom)

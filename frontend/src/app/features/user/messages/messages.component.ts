@@ -49,18 +49,24 @@ export class MessagesComponent {
     this.isShowDialogChat = false;
 
     const usernames = selectedUsers.map(u => u.username).filter((u): u is string => u !== undefined);
+    if(this.currentUser.username) usernames.push(this.currentUser.username);
+    
     this.messageRoomService.findMessageRoomByMembers(usernames).subscribe({
       next: (foundMessageRoom: MessageRoom) => {
+        console.log('foundMessageRoom', foundMessageRoom);
+        // not found
         if(!foundMessageRoom) {
           if(!this.currentUser.username) return;
+          // create
           this.messageRoomService.createChatRoom(this.currentUser.username, usernames).subscribe({
             next: (createdMessageRoom: MessageRoom) => {
-              console.log(createdMessageRoom);
-              
+              console.log('createdMessageRoom', createdMessageRoom);
+
+              // find room at least 1 content
               if(!this.currentUser.username) return;
               this.messageRoomService.findMessageRoomAtLeastOneContent(this.currentUser.username).subscribe({
                 next: (rooms: MessageRoom[]) => {
-                  console.log(rooms);
+                  console.log('rooms', rooms);
                 }, error: (error) => {
                   console.log(error);
                 }
