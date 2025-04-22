@@ -46,51 +46,11 @@
         </app-active-users-list>
         
         <!-- conversations -->
-        <div class="conversations">
-          <div class="conversation selected" style="font-weight: normal;">
-            <!-- Avatar -->
-            <div class="online">
-              <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
-                src="https://primefaces.org/cdn/primeng/images/landing/avatar.png" alt="">
-            </div>
-            <!-- Last message -->
-            <div class="conversation-detail">
-              <div class="conversation-username">dung</div>
-              <div class="conversation-content">
-                <span>
-                  Hi there
-                </span>
-                <span class="conversation-date">
-                  <span>•</span>
-                  18m
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="conversation" style="font-weight: 900;">
-            <!-- Avatar -->
-            <div class="online">
-              <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
-            </div>
-            <!-- Last message -->
-            <div class="conversation-detail">
-              <div class="conversation-username">nhommcuatoi</div>
-              <div class="conversation-content">
-                cuong&nbsp;
-                <span>create this group.</span>
-                <span class="conversation-date">
-                  <span>•</span>
-                  18m
-                </span>
-              </div>
-            </div>
-            <!-- Unseen count -->
-            <div class="conversation-unseen">
-              3
-            </div>
-          </div>
-        </div>
+        <app-conversations-list 
+          [currentUser]="currentUser"
+          [selectedMessageRoomId]="selectedMessageRoom.id"
+          (selectRoom)="selectMessageRoom($event)">
+        </app-conversations-list>
       </div>
     
       <!-- Chat area -->
@@ -148,69 +108,71 @@
     
       <!-- Right side -->
       <div class="detail-area">
-        <div class="detail-header">
-          <div class="online">
-            <img style="width: 64px; height: 64px; object-fit: cover; border-radius: 50%;"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+        <ng-container *ngIf="selectedMessageRoom.id">
+          <div class="detail-header">
+            <ng-container *ngIf="!selectedMessageRoom.isGroup">
+              <ng-container *ngFor="let member of selectedMessageRoom.members">
+                <app-avatar *ngIf="member.username !== currentUser.username"
+                  [username]="member.username"
+                  [width]="'44px'">
+                </app-avatar>
+              </ng-container>
+            </ng-container>
+            <div *ngIf="selectedMessageRoom.isGroup">
+              <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+            </div>
+
+            <div class="detail-title">
+              <div class="detail-group-name">{{selectedMessageRoom | messageRoomName}}</div>
+              <span class="pi pi-pen-to-square cursor-pointer"></span>
+            </div>
+            <span class="detail-subtitle">Created by {{selectedMessageRoom.createdById}}, {{selectedMessageRoom.createdDate | date : 'HH:mm:ss dd/MM/yyyy'}}</span>
           </div>
-          <div class="detail-title">
-            <div class="detail-group-name">dung</div>
-            <span class="pi pi-pen-to-square cursor-pointer"></span>
-          </div>
-          <span class="detail-subtitle">Created by dung, 30m</span>
-        </div>
-  
-        <div class="theme">
-          <div class="theme-mode">
-            <p>Dark mode</p>
-            <input type="checkbox" />
-          </div>
-          <div class="theme-color">
-            <p>Color</p>
-            <select id="themeColorSelect">
-              <option value="blue">Blue</option>
-              <option value="green">Green</option>
-              <option value="red">Red</option>
-            </select>
-          </div>
-        </div>
     
-        <div class="detail-members">
-          <div class="detail-members-header">
-            <div class="detail-member-title">Members</div>
-            <span class="detail-member-add">Add members</span>
-          </div>
-          <div class="detail-members-list">
-            <div class="detail-member">
-              <div class="online">
-                <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
-              </div>
-              <div class="detail-member-detail">
-                <div class="detail-member-username">56duong</div>
-                <span class="detail-member-subtitle">Admin</span>
-              </div>
-              <span class="material-symbols-rounded">more_vert</span>
+          <div class="theme">
+            <div class="theme-mode">
+              <p>Dark mode</p>
+              <input type="checkbox" />
             </div>
-            <div class="detail-member">
-              <div class="online">
-                <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
-              </div>
-              <div class="detail-member-detail">
-                <div class="detail-member-username">dung</div>
-              </div>
-              <span class="material-symbols-rounded">more_vert</span>
+            <div class="theme-color">
+              <p>Color</p>
+              <select id="themeColorSelect">
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="red">Red</option>
+              </select>
             </div>
           </div>
-        </div>
-  
-        <div class="leave-group">
-          <p>
-            <span class="material-symbols-rounded">logout</span>
-            Leave group
-          </p>
-        </div>
+      
+          <div class="detail-members" *ngIf="selectedMessageRoom.isGroup">
+            <div class="detail-members-header">
+              <div class="detail-member-title">Members</div>
+              <span class="detail-member-add">Add members</span>
+            </div>
+            <div class="detail-members-list">
+              <div class="detail-member"
+                *ngFor="let member of selectedMessageRoom.members">
+                <app-avatar
+                  [username]="member.username"
+                  [width]="'44px'">
+                </app-avatar>
+                <div class="detail-member-detail">
+                  <div class="detail-member-username">{{member.username}}</div>
+                  <span class="detail-member-subtitle">{{member.isAdmin ? 'Admin' : ''}}</span>
+                </div>
+                <span class="material-symbols-rounded">more_vert</span>
+              </div>
+            </div>
+          </div>
+    
+          <div class="leave-group">
+            <p>
+              <span class="material-symbols-rounded">logout</span>
+              Leave group
+            </p>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

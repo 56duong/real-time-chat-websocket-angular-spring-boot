@@ -1,0 +1,30 @@
+<div class="conversation" style="font-weight: normal;"
+  [class.selected]="selectedMessageRoomId === room.id">
+  <!-- Avatar -->
+  <ng-container *ngIf="!room.isGroup">
+    <ng-container *ngFor="let member of room.members">
+      <app-avatar *ngIf="member.username !== currentUser.username"
+        [username]="member.username"
+        [width]="'44px'">
+      </app-avatar>
+    </ng-container>
+  </ng-container>
+
+  <div *ngIf="room.isGroup">
+    <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+  </div>
+  <!-- Last message -->
+  <div class="conversation-detail">
+    <div class="conversation-username">{{room | messageRoomName}}</div>
+    <div class="conversation-content">
+      <span>
+        {{room.lastMessage?.content}}
+      </span>
+      <span class="conversation-date">
+        <span>•</span>
+        {{room.lastMessage?.dateSent | date : 'HH:mm:ss dd/MM/yyyy'}}
+      </span>
+    </div>
+  </div>
+</div>

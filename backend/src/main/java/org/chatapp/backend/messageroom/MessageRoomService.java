@@ -2,7 +2,11 @@ package org.chatapp.backend.messageroom;
 
 import lombok.RequiredArgsConstructor;
 import org.chatapp.backend.messagecontent.MessageContent;
+import org.chatapp.backend.messagecontent.MessageContentDTO;
+import org.chatapp.backend.messagecontent.MessageContentService;
 import org.chatapp.backend.messageroommember.MessageRoomMember;
+import org.chatapp.backend.messageroommember.MessageRoomMemberDTO;
+import org.chatapp.backend.messageroommember.MessageRoomMemberService;
 import org.chatapp.backend.user.User;
 import org.chatapp.backend.user.UserDTO;
 import org.chatapp.backend.user.UserRepository;
@@ -20,6 +24,8 @@ public class MessageRoomService {
     private final MessageRoomRepository messageRoomRepository;
     private final MessageRoomMapper messageRoomMapper;
     private final UserRepository userRepository;
+    private final MessageContentService messageContentService;
+    private final MessageRoomMemberService messageRoomMemberService;
 
 
 
@@ -76,7 +82,14 @@ public class MessageRoomService {
     public List<MessageRoomDTO> findMessageRoomAtLeastOneContent(final String username) {
         return messageRoomRepository.findMessageRoomAtLeastOneContent(username)
                 .stream()
-                .map(m -> messageRoomMapper.toDTO(m, new MessageRoomDTO()))
+                .map(m -> {
+                    final MessageRoomDTO roomDTO = messageRoomMapper.toDTO(m, new MessageRoomDTO());
+                    final MessageContentDTO lastMessage = messageContentService.getLastMessage(roomDTO.getId());
+                    roomDTO.setLastMessage(lastMessage);
+                    final List<MessageRoomMemberDTO> members = messageRoomMemberService.findByMessageRoomId(roomDTO.getId());
+                    roomDTO.setMembers(members);
+                    return roomDTO;
+                })
                 .toList();
     }
 

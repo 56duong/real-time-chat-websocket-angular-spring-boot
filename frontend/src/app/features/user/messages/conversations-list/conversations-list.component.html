@@ -1,0 +1,8 @@
+<div class="conversations">
+  <app-conversation *ngFor="let room of messageRooms"
+    [room]="room"
+    [currentUser]="currentUser"
+    [selectedMessageRoomId]="selectedMessageRoomId"
+    (click)="selectRoom.emit(room)">
+  </app-conversation>
+</div>

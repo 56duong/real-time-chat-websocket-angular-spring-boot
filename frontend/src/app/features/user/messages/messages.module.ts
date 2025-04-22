@@ -8,20 +8,26 @@ import { SharedModule } from '../../shared/shared.module';
 import { SelectUsersDialogComponent } from './select-users-dialog/select-users-dialog.component';
 import { PrimengModule } from 'src/app/primeng/primeng.module';
 import { FormsModule } from '@angular/forms';
+import { ConversationsListComponent } from './conversations-list/conversations-list.component';
+import { ConversationComponent } from './conversation/conversation.component';
+import { CoreModule } from 'src/app/core/core.module';
 
 
 @NgModule({
   declarations: [
     MessagesComponent,
     ActiveUsersListComponent,
-    SelectUsersDialogComponent
+    SelectUsersDialogComponent,
+    ConversationsListComponent,
+    ConversationComponent
   ],
   imports: [
     CommonModule,
     MessagesRoutingModule,
     SharedModule,
     PrimengModule,
-    FormsModule
+    FormsModule,
+    CoreModule,
   ]
 })
 export class MessagesModule { }
