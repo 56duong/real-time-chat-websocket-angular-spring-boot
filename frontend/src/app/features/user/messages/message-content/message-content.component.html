@@ -1,0 +1,12 @@
+<div class="chat-message"
+  [class.owner]="messageContent?.sender === currentUser?.username">
+  <app-avatar 
+    [width]="'40px'"
+    [username]="messageContent?.sender">
+  </app-avatar>
+  <div class="chat-message-content"
+    [title]="messageContent?.dateSent | date : 'HH:mm:ss dd/MM/yyyy'">
+    <div class="chat-message-username">{{messageContent?.sender}}</div>
+    <div class="chat-message-text">{{messageContent?.content}}</div>
+  </div>
+</div>

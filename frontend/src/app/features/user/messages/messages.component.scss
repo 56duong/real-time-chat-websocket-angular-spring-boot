@@ -168,7 +168,7 @@ body {
   gap: 0.5rem;
   border-top: 1px solid var(--surface-border);
   width: 100%;
-  max-width: calc(100% - 40px);
+  // max-width: calc(100% - 40px);
   padding: 10px 20px;
   background-color: var(--surface-0);
   position: sticky;
@@ -366,92 +366,4 @@ p-dialog ::ng-deep {
   border: 2px solid var(--surface-0);
   right: 2px;
   bottom: 2px;
-}
-
-
-
-/* ------------------------------ message-list ------------------------------ */
-
-.message-list {
-  padding-bottom: 25px;
-}
-
-
-
-/* --------------------------------- message -------------------------------- */
-
-.chat-message {
-  display: flex;
-  align-items: flex-end;
-  padding: 5px 20px 5px 20px;
-  animation: fade-up 0.2s;
-}
-
-app-avatar {
-  margin-top: auto;
-}
-
-.chat-message-content {
-  margin-left: 8px;
-  max-width: 70%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.chat-message-username {
-  font-size: 0.75rem;
-  margin-bottom: 3px;
-  margin-left: 3px;
-  color: var(--msg-date);
-}
-
-.chat-message-text {
-  background-color: var(--surface-100);
-  padding: 15px;
-  border-radius: 20px 20px 20px 0;
-  line-height: 1.5;
-  font-size: 14px;
-}
-
-.owner {
-  flex-direction: row-reverse;
-}
-
-.owner > div:first-child {
-  display: none;
-}
-
-.owner .chat-message-username {
-  display: none;
-}
-
-.owner .chat-message-content {
-  align-items: flex-end;
-  margin-left: 0;
-}
-
-.owner .chat-message-text {
-  border-radius: 20px 20px 0 20px;
-  background-color: var(--primary-color);
-  color: var(--primary-color-text);
-}
-
-.chat-message-notification {
-  font-size: 0.875rem;
-  text-align: center;
-  color: var(--surface-400);
-  margin: 0.5rem 0;
-}
-
-
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(10%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }

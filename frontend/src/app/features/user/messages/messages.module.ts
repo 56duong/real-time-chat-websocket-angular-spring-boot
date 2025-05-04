@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { ConversationsListComponent } from './conversations-list/conversations-list.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { CoreModule } from 'src/app/core/core.module';
+import { MessageContentsListComponent } from './message-contents-list/message-contents-list.component';
+import { MessageContentComponent } from './message-content/message-content.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { CoreModule } from 'src/app/core/core.module';
     ActiveUsersListComponent,
     SelectUsersDialogComponent,
     ConversationsListComponent,
-    ConversationComponent
+    ConversationComponent,
+    MessageContentsListComponent,
+    MessageContentComponent
   ],
   imports: [
     CommonModule,

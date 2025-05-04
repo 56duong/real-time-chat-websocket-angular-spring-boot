@@ -1,0 +1,7 @@
+<div class="message-list">
+  <app-message-content
+    *ngFor="let messageContent of selectedMessageRoom?.messages"
+    [messageContent]="messageContent"
+    [currentUser]="currentUser">
+  </app-message-content>
+</div>

@@ -9,4 +9,5 @@ export interface MessageRoom {
   createdById?: string;
   lastMessage?: MessageContent;
   members?: MessageRoomMember[];
+  messages?: MessageContent[];
 }
