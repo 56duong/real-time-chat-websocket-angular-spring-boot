@@ -9,6 +9,11 @@
   position: relative;
 }
 
+.conversation.unseen .conversation-content,
+.conversation.unseen .conversation-username {
+  font-weight: 900;
+}
+
 .conversation:hover {
   background-color: var(--surface-border);
 }

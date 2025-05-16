@@ -9,4 +9,6 @@ import java.util.UUID;
 @Repository
 public interface MessageRoomMemberRepository extends JpaRepository<MessageRoomMember, MessageRoomMemberKey> {
     List<MessageRoomMember> findByMessageRoomId(final UUID messageRoomId);
+
+    MessageRoomMember findByMessageRoomIdAndUserUsername(final UUID roomId, final String username);
 }

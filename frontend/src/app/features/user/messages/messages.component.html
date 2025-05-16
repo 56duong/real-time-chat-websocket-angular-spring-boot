@@ -28,10 +28,10 @@
         <span (click)="isShowDialogChat = true" class="material-symbols-rounded">add_circle</span>
       </div>
       <div class="header-title">
-        dung
-        <span class="header-title-small">Online</span>
+        {{selectedMessageRoom | messageRoomName}}
+        <span class="header-title-small">{{userService.getRoomStatus(selectedMessageRoom)}}</span>
       </div>
-      <div class="header-setting">
+      <div (click)="logout()" class="header-setting">
         <span class="material-symbols-rounded">logout</span>
         <span class="header-logout">Logout</span>
       </div>
@@ -47,6 +47,7 @@
         
         <!-- conversations -->
         <app-conversations-list 
+          [messageRooms]="messageRooms"
           [currentUser]="currentUser"
           [selectedMessageRoomId]="selectedMessageRoom.id"
           (selectRoom)="selectMessageRoom($event)">

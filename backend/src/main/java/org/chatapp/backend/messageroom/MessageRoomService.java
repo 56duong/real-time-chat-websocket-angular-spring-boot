@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,12 @@ public class MessageRoomService {
 
     public MessageRoomDTO findMessageRoomByMembers(final List<String> members) {
         return messageRoomRepository.findMessageRoomByMembers(members, members.size())
-                .map(m -> messageRoomMapper.toDTO(m, new MessageRoomDTO()))
+                .map(m -> {
+                    final MessageRoomDTO roomDTO = messageRoomMapper.toDTO(m, new MessageRoomDTO());
+                    final List<MessageRoomMemberDTO> roomMembers = messageRoomMemberService.findByMessageRoomId(roomDTO.getId());
+                    roomDTO.setMembers(roomMembers);
+                    return roomDTO;
+                })
                 .orElse(null);
     }
 
@@ -59,22 +65,25 @@ public class MessageRoomService {
             messageRoom.getMembers().add(messageRoomMember);
         });
 
-        //temp
-        MessageContent messageContent = MessageContent.builder()
-                .content("Hi")
-                .dateSent(LocalDateTime.now())
-                .messageRoom(messageRoom)
-                .user(user)
-                .build();
-
-        if(messageRoom.getMessageContents() == null) {
-            messageRoom.setMessageContents(new ArrayList<>());
-        }
-        messageRoom.getMessageContents().add(messageContent);
+//        //temp
+//        MessageContent messageContent = MessageContent.builder()
+//                .content("Hi")
+//                .dateSent(LocalDateTime.now())
+//                .messageRoom(messageRoom)
+//                .user(user)
+//                .build();
+//
+//        if(messageRoom.getMessageContents() == null) {
+//            messageRoom.setMessageContents(new ArrayList<>());
+//        }
+//        messageRoom.getMessageContents().add(messageContent);
 
         MessageRoom saved = messageRoomRepository.save(messageRoom);
 
-        return messageRoomMapper.toDTO(saved, new MessageRoomDTO());
+        final MessageRoomDTO roomDTO = messageRoomMapper.toDTO(saved, new MessageRoomDTO());
+        final List<MessageRoomMemberDTO> roomMembers = messageRoomMemberService.findByMessageRoomId(roomDTO.getId());
+        roomDTO.setMembers(roomMembers);
+        return roomDTO;
     }
 
 
@@ -84,6 +93,7 @@ public class MessageRoomService {
                 .stream()
                 .map(m -> {
                     final MessageRoomDTO roomDTO = messageRoomMapper.toDTO(m, new MessageRoomDTO());
+                    roomDTO.setUnseenCount(messageContentService.countUnseenMessage(roomDTO.getId(), username));
                     final MessageContentDTO lastMessage = messageContentService.getLastMessage(roomDTO.getId());
                     roomDTO.setLastMessage(lastMessage);
                     final List<MessageRoomMemberDTO> members = messageRoomMemberService.findByMessageRoomId(roomDTO.getId());
@@ -91,6 +101,19 @@ public class MessageRoomService {
                     return roomDTO;
                 })
                 .toList();
+    }
+
+
+
+    public MessageRoomDTO findById(final UUID roomId) {
+        return messageRoomRepository.findById(roomId)
+                .map(room -> {
+                    final MessageRoomDTO roomDTO = messageRoomMapper.toDTO(room, new MessageRoomDTO());
+                    final List<MessageRoomMemberDTO> roomMembers = messageRoomMemberService.findByMessageRoomId(roomDTO.getId());
+                    roomDTO.setMembers(roomMembers);
+                    return roomDTO;
+                })
+                .orElse(null);
     }
 
 }

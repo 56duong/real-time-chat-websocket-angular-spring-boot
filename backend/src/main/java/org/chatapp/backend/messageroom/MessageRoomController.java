@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +34,13 @@ public class MessageRoomController {
     @GetMapping("/find-chat-room-at-least-one-content/{username}")
     public ResponseEntity<List<MessageRoomDTO>> findMessageRoomAtLeastOneContent(@PathVariable final String username) {
         return ResponseEntity.ok(messageRoomService.findMessageRoomAtLeastOneContent(username));
+    }
+
+
+
+    @GetMapping("/{roomId}")
+    public ResponseEntity<MessageRoomDTO> findById(@PathVariable final UUID roomId) {
+        return ResponseEntity.ok(messageRoomService.findById(roomId));
     }
 
 }

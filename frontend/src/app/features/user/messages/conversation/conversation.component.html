@@ -1,5 +1,6 @@
 <div class="conversation" style="font-weight: normal;"
-  [class.selected]="selectedMessageRoomId === room.id">
+  [class.selected]="selectedMessageRoomId === room.id"
+  [class.unseen]="room.unseenCount && room.unseenCount > 0">
   <!-- Avatar -->
   <ng-container *ngIf="!room.isGroup">
     <ng-container *ngFor="let member of room.members">
@@ -11,8 +12,10 @@
   </ng-container>
 
   <div *ngIf="room.isGroup">
-    <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+    <app-avatar
+      [width]="'44px'"
+      [isOnline]="userService.getRoomStatus(room) === 'Online'">
+    </app-avatar>
   </div>
   <!-- Last message -->
   <div class="conversation-detail">
@@ -22,9 +25,12 @@
         {{room.lastMessage?.content}}
       </span>
       <span class="conversation-date">
-        <span>•</span>
-        {{room.lastMessage?.dateSent | date : 'HH:mm:ss dd/MM/yyyy'}}
+        <span *ngIf="room.lastMessage?.id">•</span>
+        {{room.lastMessage?.dateSent | timeAgo}}
       </span>
     </div>
+  </div>
+  <div *ngIf="room.unseenCount && room.unseenCount > 0" class="conversation-unseen">
+    {{room.unseenCount}}
   </div>
 </div>

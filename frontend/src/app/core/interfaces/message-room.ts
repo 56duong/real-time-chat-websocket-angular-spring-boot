@@ -10,4 +10,5 @@ export interface MessageRoom {
   lastMessage?: MessageContent;
   members?: MessageRoomMember[];
   messages?: MessageContent[];
+  unseenCount?: number;
 }

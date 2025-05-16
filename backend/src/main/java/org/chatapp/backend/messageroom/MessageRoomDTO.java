@@ -17,4 +17,5 @@ public class MessageRoomDTO {
     private String createdById;
     private MessageContentDTO lastMessage;
     private List<MessageRoomMemberDTO> members;
+    private Long unseenCount;
 }

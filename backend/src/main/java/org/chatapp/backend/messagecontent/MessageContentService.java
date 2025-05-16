@@ -38,6 +38,12 @@ public class MessageContentService {
         return messageContentMapper.toDTO(messageContent, new MessageContentDTO());
     }
 
+
+
+    public Long countUnseenMessage(final UUID roomId, final String username) {
+        return messageContentRepository.countUnseenMessage(roomId, username);
+    }
+
 }
 
 
