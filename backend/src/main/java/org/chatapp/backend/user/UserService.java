@@ -1,8 +1,11 @@
 package org.chatapp.backend.user;
 
 import lombok.RequiredArgsConstructor;
+import org.chatapp.backend.utils.FileUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -80,6 +83,24 @@ public class UserService {
                 .stream()
                 .map(u -> userMapper.toDTO(u, new UserDTO()))
                 .toList();
+    }
+
+
+
+    public UserDTO uploadAvatar(final MultipartFile file, final String username) {
+        final Optional<User> user = userRepository.findById(username);
+
+        if(user.isPresent())  {
+            if(user.get().getAvatarUrl() != null) {
+                // delete
+                FileUtils.deleteFile("/" + FileUtils.FOLDER_AVATAR + "/" + user.get().getAvatarShortUrl());
+            }
+            // upload
+            String avatarUrl = FileUtils.storeFile(file, FileUtils.FOLDER_AVATAR);
+            user.get().setAvatarUrl(avatarUrl);
+            userRepository.save(user.get());
+        }
+        return user.map(u -> userMapper.toDTO(u, new UserDTO())).orElse(null);
     }
 
 }

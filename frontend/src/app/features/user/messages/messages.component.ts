@@ -7,6 +7,7 @@ import { User } from 'src/app/core/interfaces/user';
 import { MessageContentService } from 'src/app/core/services/message-content.service';
 import { MessageRoomMemberService } from 'src/app/core/services/message-room-member.service';
 import { MessageRoomService } from 'src/app/core/services/message-room.service';
+import { ThemeService } from 'src/app/core/services/theme.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -28,6 +29,10 @@ export class MessagesComponent {
   messageToSend: MessageContent = {};
   messageRooms: MessageRoom[] = [];
 
+  themeMode: boolean = this.themeService.themeMode === 'dark' ? true : false;
+  themeColor = this.themeService.getGetThemeColorObject(this.themeService.themeColor);
+  themeColors = this.themeService.themeColors;
+
 
   constructor(
     public userService: UserService,
@@ -35,6 +40,7 @@ export class MessagesComponent {
     private messageContentService: MessageContentService,
     private router: Router,
     private messageRoomMemberService: MessageRoomMemberService,
+    private themeService: ThemeService,
   ) {}
 
 
@@ -225,6 +231,16 @@ export class MessagesComponent {
       const chat = document.getElementById('chat-area');
       if(chat) chat.scrollTop = chat.scrollHeight;
     }, 100);
+  }
+
+
+
+  switchMode(mode: string) {
+    this.themeService.switchMode(mode);
+  }
+
+  switchColor(color: string) {
+    this.themeService.switchColor(color);
   }
 
 }

@@ -20,7 +20,8 @@
             [width]="'48px'" 
             [isOnline]="true" 
             [username]="currentUser.username" 
-            [avatarUrl]="currentUser.avatarUrl">
+            [avatarUrl]="currentUser.avatarUrl"
+            [isAllowUpload]="true">
           </app-avatar>
         </div>
         <div class="header-username">{{currentUser.username}}</div>
@@ -74,7 +75,8 @@
           </div>
           <input [(ngModel)]="messageToSend.content" 
             (keydown.enter)="sendMessage()"
-            type="text" class="p-inputtext" id="message-input" placeholder="Type something here..." name="content" autofocus/>
+            type="text" class="p-inputtext" id="message-input" placeholder="Type something here..." name="content" autofocus
+            style="background-color: transparent;"/>
           <span (click)="sendMessage()" class="send-button material-symbols-rounded">send</span>
         </form>
       </div>
@@ -106,15 +108,18 @@
           <div class="theme">
             <div class="theme-mode">
               <p>Dark mode</p>
-              <input type="checkbox" />
+              <p-inputSwitch [(ngModel)]="themeMode" (onChange)="switchMode(themeMode ? 'dark' : 'light')"/>
             </div>
             <div class="theme-color">
               <p>Color</p>
-              <select id="themeColorSelect">
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
-                <option value="red">Red</option>
-              </select>
+              <p-dropdown [(ngModel)]="themeColor" (onChange)="switchColor(themeColor.name)" [options]="themeColors">
+                <ng-template pTemplate="selectedItem">
+                  <div class="theme-button" [style.backgroundColor]="themeColor.color"></div>
+                </ng-template>
+                <ng-template pTemplate="item" let-theme>
+                  <div class="theme-button" [style.backgroundColor]="theme.color"></div>
+                </ng-template>
+              </p-dropdown>
             </div>
           </div>
       

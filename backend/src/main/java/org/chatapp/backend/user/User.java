@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.chatapp.backend.messagecontent.MessageContent;
 import org.chatapp.backend.messageroom.MessageRoom;
 import org.chatapp.backend.messageroommember.MessageRoomMember;
+import org.chatapp.backend.utils.FileUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,5 +37,17 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<MessageRoomMember> messageRoomMembers;
+
+    @OneToMany(mappedBy = "user")
+    private List<MessageContent> messageContents;
+
+    public String getAvatarUrl() {
+        if(avatarUrl == null) return null;
+        return FileUtils.getAvatarUrl(avatarUrl);
+    }
+
+    public String getAvatarShortUrl() {
+        return avatarUrl;
+    }
 
 }

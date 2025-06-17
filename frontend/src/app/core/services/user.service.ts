@@ -155,4 +155,11 @@ export class UserService {
     }
   }
 
+
+
+  uploadAvatar(formData: FormData): Observable<User> {
+    const url = this.apiUrl + '/avatar';
+    return this.http.post<User>(url, formData);
+  }
+
 }
