@@ -1,6 +1,6 @@
 <p-dialog 
   (onHide)="onHide()"
-  header="Edit Profile" 
+  [header]="title" 
   [modal]="true" 
   [(visible)]="visible" 
   [style]="{ width: '25rem' }">
@@ -28,7 +28,7 @@
 
   <div class="flex justify-content-end gap-2 mt-3">
     <p-button label="Cancel" severity="secondary" (onClick)="onHide()" />
-    <p-button label="Chat" (onClick)="onSubmit()" />
+    <p-button [label]="btnAction" (onClick)="onSubmit()" />
   </div>
 
 </p-dialog>

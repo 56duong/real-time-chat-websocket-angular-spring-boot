@@ -126,7 +126,7 @@
           <div class="detail-members">
             <div class="detail-members-header" *ngIf="selectedMessageRoom.isGroup">
               <div class="detail-member-title">Members</div>
-              <span class="detail-member-add">Add members</span>
+              <span *ngIf="selectedMessageRoom.isAdmin" (click)="isShowDialogAddMember = true" class="detail-member-add">Add members</span>
             </div>
             <div class="detail-members-list" *ngIf="selectedMessageRoom.isGroup">
               <div class="detail-member"
@@ -139,13 +139,13 @@
                   <div class="detail-member-username">{{member.username}}</div>
                   <span class="detail-member-subtitle">{{member.isAdmin ? 'Admin' : ''}}</span>
                 </div>
-                <span class="material-symbols-rounded">more_vert</span>
+                <span *ngIf="selectedMessageRoom.isAdmin && member.username != currentUser.username" (click)="selectedMember = member; isShowEditMember = true" class="material-symbols-rounded">more_vert</span>
               </div>
             </div>
           </div>
     
           <div class="leave-group">
-            <p>
+            <p (click)="leaveGroup()">
               <span class="material-symbols-rounded">logout</span>
               Leave group
             </p>
@@ -165,3 +165,31 @@
   (onHideEvent)="isShowDialogChat = false"
   (onSubmitEvent)="chat($event)">
 </app-select-users-dialog>
+
+
+
+<app-select-users-dialog
+  [visible]="isShowDialogAddMember"
+  [title]="'Add members'"
+  [btnAction]="'Add'"
+  [excludeMembers]="selectedMessageRoom.members"
+  [currentUsername]="currentUser.username"
+  (onHideEvent)="isShowDialogChat = false"
+  (onSubmitEvent)="addMembers($event)">
+</app-select-users-dialog>
+
+
+
+<p-dialog
+  [(visible)]="isShowEditMember"
+  (onHide)="selectedMember = undefined"
+  [showHeader]="false"
+  [modal]="true"
+  [dismissableMask]="true"
+  [style]="{ width: '30rem', maxWidth: '90%'}"
+  class="edit-member-dialog">
+  <button *ngIf="!selectedMember?.isAdmin" (click)="makeAdmin()">Make admin</button>
+  <button *ngIf="selectedMember?.isAdmin" (click)="removeAdmin()">Remove admin</button>
+  <button (click)="removeFromGroup()">Remove from group</button>
+  <button (click)="isShowEditMember = false">Cancel</button>
+</p-dialog>

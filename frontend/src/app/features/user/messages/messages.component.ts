@@ -119,6 +119,9 @@ export class MessagesComponent {
     if(this.selectedMessageRoom.id) {
       this.updateLastSeen(this.selectedMessageRoom.id, this.currentUser.username);
     }
+
+    this.selectedMessageRoom.isAdmin = this.selectedMessageRoom.members?.filter(u => u.username === this.currentUser?.username && u.isAdmin)[0] ? true : false;
+
     this.getMessagesByRoomId();
   }
 
@@ -241,6 +244,96 @@ export class MessagesComponent {
 
   switchColor(color: string) {
     this.themeService.switchColor(color);
+  }
+
+
+
+  isShowDialogAddMember: boolean = false;
+
+  addMembers(members: User[]) {
+    this.messageRoomMemberService.addMembers(this.selectedMessageRoom.id, members).subscribe({
+      next: (members: MessageRoomMember[]) => {
+        this.selectedMessageRoom.members?.push(...members);
+        this.isShowDialogAddMember = false;
+      }, error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+
+
+  isShowEditMember: boolean = false;
+  selectedMember: undefined | MessageRoomMember = {};
+
+  makeAdmin() {
+    this.messageRoomMemberService.makeAdmin(this.selectedMessageRoom.id, this.selectedMember?.username).subscribe({
+      next: (updateMember: MessageRoomMember) => {
+        const index = this.selectedMessageRoom.members?.findIndex(m => m.username === updateMember.username);
+        if(index !== undefined && index !== -1 && this.selectedMessageRoom.members) {
+          this.selectedMessageRoom.members[index].isAdmin = true;
+        }
+        this.isShowEditMember = false;
+        this.selectedMember = undefined;
+      }, error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+
+
+  removeAdmin() {
+    this.messageRoomMemberService.removeAdmin(this.selectedMessageRoom.id, this.selectedMember?.username).subscribe({
+      next: (updateMember: MessageRoomMember) => {
+        const index = this.selectedMessageRoom.members?.findIndex(m => m.username === updateMember.username);
+        if(index !== undefined && index !== -1 && this.selectedMessageRoom.members) {
+          this.selectedMessageRoom.members[index].isAdmin = false;
+        }
+        this.isShowEditMember = false;
+        this.selectedMember = undefined;
+      }, error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+
+
+  removeFromGroup() {
+    this.messageRoomMemberService.removeMember(this.selectedMessageRoom.id, this.selectedMember?.username).subscribe({
+      next: (bool: Boolean) => {
+        if(bool) {
+          this.selectedMessageRoom.members = this.selectedMessageRoom.members?.filter(m => m.username !== this.selectedMember?.username);
+        }
+        this.isShowEditMember = false;
+        this.selectedMember = undefined;
+      }, error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+
+
+  leaveGroup() {
+    const member = this.selectedMessageRoom.members?.filter(m => m.username === this.currentUser.username)[0];
+
+    const countAdmin = this.selectedMessageRoom.members?.filter(m => m.isAdmin).length ?? 0;
+    if(countAdmin <= 1) {
+      alert('You cannot leave the group because you are the only admin');
+      return;
+    }
+
+    this.messageRoomMemberService.removeMember(this.selectedMessageRoom.id, member?.username).subscribe({
+      next: (bool: Boolean) => {
+        if(bool) {
+          window.location.reload();
+        }
+      }, error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
 }

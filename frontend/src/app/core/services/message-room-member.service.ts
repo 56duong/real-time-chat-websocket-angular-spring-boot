@@ -24,4 +24,32 @@ export class MessageRoomMemberService {
     return this.http.post<MessageRoomMember>(url, {});
   }
 
+
+
+  addMembers(roomId?: string, members?: MessageRoomMember[]): Observable<MessageRoomMember[]> {
+    const url = this.apiUrl + '/add-members/' + roomId;
+    return this.http.post<MessageRoomMember[]>(url, members);
+  }
+
+
+
+  removeMember(roomId?: string, memberId?: string): Observable<Boolean> {
+    const url = this.apiUrl + '/remove-member/' + roomId + '/' + memberId;
+    return this.http.delete<Boolean>(url, {});
+  }
+
+
+
+  makeAdmin(roomId?: string, memberId?: string): Observable<MessageRoomMember> {
+    const url = this.apiUrl + '/make-admin/' + roomId + '/' + memberId;
+    return this.http.post<MessageRoomMember>(url, {});
+  }
+
+
+
+  removeAdmin(roomId?: string, memberId?: string): Observable<MessageRoomMember> {
+    const url = this.apiUrl + '/remove-admin/' + roomId + '/' + memberId;
+    return this.http.post<MessageRoomMember>(url, {});
+  }
+
 }

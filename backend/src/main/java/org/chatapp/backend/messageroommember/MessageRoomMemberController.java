@@ -2,11 +2,9 @@ package org.chatapp.backend.messageroommember;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +20,38 @@ public class MessageRoomMemberController {
     public ResponseEntity<MessageRoomMemberDTO> updateLastSeen(@PathVariable final UUID roomId,
                                                                @PathVariable final String username) {
         return ResponseEntity.ok(messageRoomMemberService.updateLastSeen(roomId, username));
+    }
+
+
+
+    @PostMapping("/add-members/{roomId}")
+    public ResponseEntity<List<MessageRoomMemberDTO>> addMembers(@PathVariable final UUID roomId,
+                                                           @RequestBody final List<MessageRoomMemberDTO> memberDTOS) {
+        return ResponseEntity.ok(messageRoomMemberService.addMembers(roomId, memberDTOS));
+    }
+
+
+
+    @DeleteMapping("/remove-member/{roomId}/{memberId}")
+    public ResponseEntity<Boolean> removeMember(@PathVariable final UUID roomId,
+                                                             @PathVariable final String memberId) {
+        return ResponseEntity.ok(messageRoomMemberService.removeMember(roomId, memberId));
+    }
+
+
+
+    @PostMapping("/make-admin/{roomId}/{memberId}")
+    public ResponseEntity<MessageRoomMemberDTO> makeAdmin(@PathVariable final UUID roomId,
+                                                          @PathVariable final String memberId) {
+        return ResponseEntity.ok(messageRoomMemberService.adminAssign(roomId, memberId, true));
+    }
+
+
+
+    @PostMapping("/remove-admin/{roomId}/{memberId}")
+    public ResponseEntity<MessageRoomMemberDTO> removeAdmin(@PathVariable final UUID roomId,
+                                                          @PathVariable final String memberId) {
+        return ResponseEntity.ok(messageRoomMemberService.adminAssign(roomId, memberId, false));
     }
 
 }

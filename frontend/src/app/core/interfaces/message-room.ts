@@ -11,4 +11,6 @@ export interface MessageRoom {
   members?: MessageRoomMember[];
   messages?: MessageContent[];
   unseenCount?: number;
+
+  isAdmin?: boolean;
 }
