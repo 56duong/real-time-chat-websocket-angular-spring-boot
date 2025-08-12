@@ -1,4 +1,5 @@
-<div class="chat-message"
+<div *ngIf="messageContent?.messageType === MessageType.TEXT" 
+  class="chat-message"
   [class.owner]="messageContent?.sender === currentUser?.username">
   <app-avatar 
     [width]="'40px'"
@@ -6,7 +7,51 @@
   </app-avatar>
   <div class="chat-message-content"
     [title]="messageContent?.dateSent | date : 'HH:mm:ss dd/MM/yyyy'">
-    <div class="chat-message-username">{{messageContent?.sender}}</div>
+    <div *ngIf="isGroup" class="chat-message-username">{{messageContent?.sender}}</div>
     <div class="chat-message-text">{{messageContent?.content}}</div>
   </div>
+</div>
+
+
+
+<div *ngIf="messageContent?.messageType?.startsWith('NOTIFICATION')"
+  class="chat-message-notification">
+
+  {{messageContent?.sender}}
+
+  <!-- NOTIFICATION_CREATE_ROOM -->
+  <ng-container *ngIf="messageContent?.messageType === MessageType.NOTIFICATION_CREATE_ROOM">
+    <span>create this group.</span>
+  </ng-container>
+
+  <!-- NOTIFICATION_ADD_MEMBER -->
+  <ng-container *ngIf="messageContent?.messageType === MessageType.NOTIFICATION_ADD_MEMBER">
+    <span>added {{messageContent?.content}} to the group.</span>
+  </ng-container>
+
+  <!-- NOTIFICATION_REMOVE_MEMBER -->
+  <ng-container *ngIf="messageContent?.messageType === MessageType.NOTIFICATION_REMOVE_MEMBER">
+    <span>removed {{messageContent?.content}} from the group.</span>
+  </ng-container>
+
+  <!-- NOTIFICATION_LEAVE_ROOM -->
+  <ng-container *ngIf="messageContent?.messageType === MessageType.NOTIFICATION_LEAVE_ROOM">
+    <span>left the group.</span>
+  </ng-container>
+
+  <!-- NOTIFICATION_MAKE_ADMIN -->
+  <ng-container *ngIf="messageContent?.messageType === MessageType.NOTIFICATION_MAKE_ADMIN">
+    <span>added {{messageContent?.content}} as a group admin.</span>
+  </ng-container>
+
+  <!-- NOTIFICATION_REMOVE_ADMIN -->
+  <ng-container *ngIf="messageContent?.messageType === MessageType.NOTIFICATION_REMOVE_ADMIN">
+    <span>removed {{messageContent?.content}} as a group admin.</span>
+  </ng-container>
+
+  <!-- NOTIFICATION_CHANGE_NAME -->
+  <ng-container *ngIf="messageContent?.messageType === MessageType.NOTIFICATION_CHANGE_NAME">
+    <span>named the group {{messageContent?.content}}.</span>
+  </ng-container>
+
 </div>

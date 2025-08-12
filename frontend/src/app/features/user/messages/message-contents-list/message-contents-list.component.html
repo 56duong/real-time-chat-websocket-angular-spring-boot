@@ -2,6 +2,7 @@
   <app-message-content
     *ngFor="let messageContent of selectedMessageRoom?.messages"
     [messageContent]="messageContent"
-    [currentUser]="currentUser">
+    [currentUser]="currentUser"
+    [isGroup]="selectedMessageRoom?.isGroup">
   </app-message-content>
 </div>

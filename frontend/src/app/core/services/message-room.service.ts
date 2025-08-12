@@ -53,4 +53,11 @@ export class MessageRoomService {
     return this.http.get<MessageRoom>(url);
   }
 
+
+
+  updateGroupName(id?: string, name?: string) {
+    const url = this.apiUrl + '/update-group-name/' + id;
+    return this.http.post<MessageRoom>(url, name);
+  }
+
 }

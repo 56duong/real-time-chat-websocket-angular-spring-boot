@@ -43,4 +43,12 @@ public class MessageRoomController {
         return ResponseEntity.ok(messageRoomService.findById(roomId));
     }
 
+
+
+    @PostMapping("/update-group-name/{id}")
+    public ResponseEntity<MessageRoomDTO> updateGroupName(@PathVariable final UUID id,
+                                                          @RequestBody final String name) {
+        return ResponseEntity.ok(messageRoomService.updateGroupName(id, name));
+    }
+
 }

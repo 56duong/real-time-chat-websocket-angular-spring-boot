@@ -21,8 +21,39 @@
   <div class="conversation-detail">
     <div class="conversation-username">{{room | messageRoomName}}</div>
     <div class="conversation-content">
-      <span>
+      <span *ngIf="room.lastMessage?.messageType === MessageType.TEXT" >
         {{room.lastMessage?.content}}
+      </span>
+      <span *ngIf="room.lastMessage?.messageType?.startsWith('NOTIFICATION')" class="chat-message-notification">
+        {{room.lastMessage?.sender}} 
+        <!-- NOTIFICATION_CREATE_ROOM -->
+        <ng-container *ngIf="room.lastMessage?.messageType === MessageType.NOTIFICATION_CREATE_ROOM">
+          create this group.
+        </ng-container>
+        <!-- NOTIFICATION_ADD_MEMBER -->
+        <ng-container *ngIf="room.lastMessage?.messageType === MessageType.NOTIFICATION_ADD_MEMBER">
+          added {{room.lastMessage?.content}} to the group.
+        </ng-container>
+        <!-- NOTIFICATION_REMOVE_MEMBER -->
+        <ng-container *ngIf="room.lastMessage?.messageType === MessageType.NOTIFICATION_REMOVE_MEMBER">
+          removed {{room.lastMessage?.content}} from the group.
+        </ng-container>
+        <!-- NOTIFICATION_LEAVE_ROOM -->
+        <ng-container *ngIf="room.lastMessage?.messageType === MessageType.NOTIFICATION_LEAVE_ROOM">
+          left the group.
+        </ng-container>
+        <!-- NOTIFICATION_MAKE_ADMIN -->
+        <ng-container *ngIf="room.lastMessage?.messageType === MessageType.NOTIFICATION_MAKE_ADMIN">
+          added {{room.lastMessage?.content}} as a group admin.
+        </ng-container>
+        <!-- NOTIFICATION_REMOVE_ADMIN -->
+        <ng-container *ngIf="room.lastMessage?.messageType === MessageType.NOTIFICATION_REMOVE_ADMIN">
+          removed {{room.lastMessage?.content}} as a group admin.
+        </ng-container>
+        <!-- NOTIFICATION_CHANGE_NAME -->
+        <ng-container *ngIf="room.lastMessage?.messageType === MessageType.NOTIFICATION_CHANGE_NAME">
+          named the group {{room.lastMessage?.content}}.
+        </ng-container>
       </span>
       <span class="conversation-date">
         <span *ngIf="room.lastMessage?.id">•</span>

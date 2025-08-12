@@ -1,5 +1,6 @@
 package org.chatapp.backend.messageroom;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.chatapp.backend.messagecontent.MessageContent;
 import org.chatapp.backend.messagecontent.MessageContentDTO;
@@ -10,6 +11,7 @@ import org.chatapp.backend.messageroommember.MessageRoomMemberService;
 import org.chatapp.backend.user.User;
 import org.chatapp.backend.user.UserDTO;
 import org.chatapp.backend.user.UserRepository;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -114,6 +116,15 @@ public class MessageRoomService {
                     return roomDTO;
                 })
                 .orElse(null);
+    }
+
+
+
+    public MessageRoomDTO updateGroupName(final UUID id, final String name) {
+        final MessageRoom messageRoom = messageRoomRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        messageRoom.setName(name);
+        messageRoomRepository.save(messageRoom);
+        return messageRoomMapper.toDTO(messageRoom, new MessageRoomDTO());
     }
 
 }

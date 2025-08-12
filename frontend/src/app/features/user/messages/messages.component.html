@@ -57,28 +57,30 @@
     
       <!-- Chat area -->
       <div class="chat-area" id="chat-area">
-        <app-message-contents-list 
-          [selectedMessageRoom]="selectedMessageRoom"
-          [currentUser]="currentUser"
-          style="flex-grow: 1;">
-        </app-message-contents-list>
-        <!-- Scroll to Unseen messages -->
-        <div style="text-align: center;">
-          <span class="material-symbols-rounded">arrow_upward</span>
-        </div>
-        <!-- Chat footer -->
-        <form class="chat-footer">
-          <div class="other-list">
-            <div class="emoji">
-              <span class="material-symbols-rounded">mood</span>
-            </div>
+        <ng-container *ngIf="selectedMessageRoom.id">
+          <app-message-contents-list 
+            [selectedMessageRoom]="selectedMessageRoom"
+            [currentUser]="currentUser"
+            style="flex-grow: 1;">
+          </app-message-contents-list>
+          <!-- Scroll to Unseen messages -->
+          <div style="text-align: center;">
+            <span class="material-symbols-rounded">arrow_upward</span>
           </div>
-          <input [(ngModel)]="messageToSend.content" 
-            (keydown.enter)="sendMessage()"
-            type="text" class="p-inputtext" id="message-input" placeholder="Type something here..." name="content" autofocus
-            style="background-color: transparent;"/>
-          <span (click)="sendMessage()" class="send-button material-symbols-rounded">send</span>
-        </form>
+          <!-- Chat footer -->
+          <form class="chat-footer">
+            <div class="other-list">
+              <div class="emoji">
+                <span class="material-symbols-rounded">mood</span>
+              </div>
+            </div>
+            <input [(ngModel)]="messageToSend.content" 
+              (keydown.enter)="sendMessage()"
+              type="text" class="p-inputtext" id="message-input" placeholder="Type something here..." name="content" autofocus
+              style="background-color: transparent;"/>
+            <span (click)="sendMessage()" [class.disabled]="!messageToSend.content?.trim()" class="send-button material-symbols-rounded">send</span>
+          </form>
+        </ng-container>
       </div>
     
       <!-- Right side -->
@@ -89,20 +91,20 @@
               <ng-container *ngFor="let member of selectedMessageRoom.members">
                 <app-avatar *ngIf="member.username !== currentUser.username"
                   [username]="member.username"
-                  [width]="'44px'">
+                  [width]="'56px'">
                 </app-avatar>
               </ng-container>
             </ng-container>
             <div *ngIf="selectedMessageRoom.isGroup">
-              <img style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;"
+              <img style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%;"
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
             </div>
 
             <div class="detail-title">
               <div class="detail-group-name">{{selectedMessageRoom | messageRoomName}}</div>
-              <span class="pi pi-pen-to-square cursor-pointer"></span>
+              <span *ngIf="selectedMessageRoom.isGroup" (click)="isShowEditGroupName = true" class="pi pi-pen-to-square cursor-pointer"></span>
             </div>
-            <span class="detail-subtitle">Created by {{selectedMessageRoom.createdById}}, {{selectedMessageRoom.createdDate | date : 'HH:mm:ss dd/MM/yyyy'}}</span>
+            <span *ngIf="selectedMessageRoom.isGroup" class="detail-subtitle">Created by {{selectedMessageRoom.createdById}}, {{selectedMessageRoom.createdDate | date : 'HH:mm:ss dd/MM/yyyy'}}</span>
           </div>
     
           <div class="theme">
@@ -192,4 +194,20 @@
   <button *ngIf="selectedMember?.isAdmin" (click)="removeAdmin()">Remove admin</button>
   <button (click)="removeFromGroup()">Remove from group</button>
   <button (click)="isShowEditMember = false">Cancel</button>
+</p-dialog>
+
+
+
+<p-dialog
+  header="Edit group name"
+  [(visible)]="isShowEditGroupName"
+  [style]="{ width: '30rem', maxWidth: '90%'}">
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="group-name" class="font-semibold w-6rem">Group name</label>
+    <input pInputText id="group-name" class="flex-auto" [(ngModel)]="newGroupName" autocomplete="off">
+  </div>
+  <div class="flex justify-content-end gap-2">
+    <p-button label="Cancel" severity="secondary" (onClick)="isShowEditGroupName = false"></p-button>
+    <p-button label="Save" (onClick)="updateGroupName()"></p-button>
+  </div>
 </p-dialog>

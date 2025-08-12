@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MessageContent, MessageType } from 'src/app/core/interfaces/message-content';
 import { MessageRoom } from 'src/app/core/interfaces/message-room';
 import { MessageRoomMember } from 'src/app/core/interfaces/message-room-member';
@@ -83,6 +83,13 @@ export class MessagesComponent {
           this.messageRoomService.createChatRoom(this.currentUser.username, usernames).subscribe({
             next: (createdMessageRoom: MessageRoom) => {
               console.log('createdMessageRoom', createdMessageRoom);
+              if(createdMessageRoom.isGroup) {
+                this.messageContentService.sendMessage({
+                  sender: this.currentUser.username,
+                  messageType: MessageType.NOTIFICATION_CREATE_ROOM,
+                  messageRoomId: createdMessageRoom.id
+                });
+              }
               this.messageRooms.unshift(createdMessageRoom);
               this.selectMessageRoom(createdMessageRoom);
             },
@@ -144,7 +151,13 @@ export class MessagesComponent {
     this.messageContentService.subscribeMessagesObservable().subscribe({
       next: (messageContent: MessageContent) => {
         if(messageContent.messageRoomId === this.selectedMessageRoom.id) {
-          this.selectedMessageRoom.lastMessage = messageContent;
+          // this.selectedMessageRoom.lastMessage = messageContent;
+          this.messageRooms.map(room => {
+            if(room.id === messageContent.messageRoomId) {
+              room.lastMessage = messageContent;
+            }
+            return room;
+          });
           this.selectedMessageRoom.messages?.push(messageContent);
           this.scrollToBottom();
         }
@@ -177,6 +190,8 @@ export class MessagesComponent {
 
 
   sendMessage() {
+    if(this.messageToSend.content?.trim() == '') return;
+
     this.messageToSend = {
       content: this.messageToSend.content,
       messageRoomId: this.selectedMessageRoom.id,
@@ -253,6 +268,12 @@ export class MessagesComponent {
   addMembers(members: User[]) {
     this.messageRoomMemberService.addMembers(this.selectedMessageRoom.id, members).subscribe({
       next: (members: MessageRoomMember[]) => {
+        this.messageContentService.sendMessage({
+          sender: this.currentUser.username,
+          messageType: MessageType.NOTIFICATION_ADD_MEMBER,
+          content: members.map(m => m.username).join(', '),
+          messageRoomId: this.selectedMessageRoom.id
+        });
         this.selectedMessageRoom.members?.push(...members);
         this.isShowDialogAddMember = false;
       }, error: (error) => {
@@ -269,6 +290,12 @@ export class MessagesComponent {
   makeAdmin() {
     this.messageRoomMemberService.makeAdmin(this.selectedMessageRoom.id, this.selectedMember?.username).subscribe({
       next: (updateMember: MessageRoomMember) => {
+        this.messageContentService.sendMessage({
+          sender: this.currentUser.username,
+          messageType: MessageType.NOTIFICATION_MAKE_ADMIN,
+          content: updateMember.username,
+          messageRoomId: this.selectedMessageRoom.id
+        });
         const index = this.selectedMessageRoom.members?.findIndex(m => m.username === updateMember.username);
         if(index !== undefined && index !== -1 && this.selectedMessageRoom.members) {
           this.selectedMessageRoom.members[index].isAdmin = true;
@@ -286,6 +313,12 @@ export class MessagesComponent {
   removeAdmin() {
     this.messageRoomMemberService.removeAdmin(this.selectedMessageRoom.id, this.selectedMember?.username).subscribe({
       next: (updateMember: MessageRoomMember) => {
+        this.messageContentService.sendMessage({
+          sender: this.currentUser.username,
+          messageType: MessageType.NOTIFICATION_REMOVE_ADMIN,
+          content: updateMember.username,
+          messageRoomId: this.selectedMessageRoom.id
+        });
         const index = this.selectedMessageRoom.members?.findIndex(m => m.username === updateMember.username);
         if(index !== undefined && index !== -1 && this.selectedMessageRoom.members) {
           this.selectedMessageRoom.members[index].isAdmin = false;
@@ -303,6 +336,12 @@ export class MessagesComponent {
   removeFromGroup() {
     this.messageRoomMemberService.removeMember(this.selectedMessageRoom.id, this.selectedMember?.username).subscribe({
       next: (bool: Boolean) => {
+        this.messageContentService.sendMessage({
+          sender: this.currentUser.username,
+          messageType: MessageType.NOTIFICATION_REMOVE_MEMBER,
+          content: this.selectedMember?.username,
+          messageRoomId: this.selectedMessageRoom.id
+        });
         if(bool) {
           this.selectedMessageRoom.members = this.selectedMessageRoom.members?.filter(m => m.username !== this.selectedMember?.username);
         }
@@ -319,8 +358,8 @@ export class MessagesComponent {
   leaveGroup() {
     const member = this.selectedMessageRoom.members?.filter(m => m.username === this.currentUser.username)[0];
 
-    const countAdmin = this.selectedMessageRoom.members?.filter(m => m.isAdmin).length ?? 0;
-    if(countAdmin <= 1) {
+    const countAdmin = this.selectedMessageRoom.members?.filter(m => m.isAdmin && m.username !== this.currentUser.username).length ?? 0;
+    if(countAdmin <= 0) {
       alert('You cannot leave the group because you are the only admin');
       return;
     }
@@ -328,8 +367,47 @@ export class MessagesComponent {
     this.messageRoomMemberService.removeMember(this.selectedMessageRoom.id, member?.username).subscribe({
       next: (bool: Boolean) => {
         if(bool) {
+          this.messageContentService.sendMessage({
+            sender: this.currentUser.username,
+            messageType: MessageType.NOTIFICATION_LEAVE_ROOM,
+            messageRoomId: this.selectedMessageRoom.id
+          });
           window.location.reload();
         }
+      }, error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+
+
+  isShowEditGroupName: boolean = false;
+  newGroupName: string = '';
+
+  updateGroupName() {
+    this.messageRoomService.updateGroupName(this.selectedMessageRoom.id, this.newGroupName).subscribe({
+      next: (messageRoom: MessageRoom) => {
+        this.selectedMessageRoom = {
+          ...this.selectedMessageRoom,
+          name: messageRoom.name
+        };
+        this.messageRooms = this.messageRooms.map(room => {
+          if(room.id === messageRoom.id) {
+            return {
+              ...room,
+              name: messageRoom.name
+            }
+          }
+          return room;
+        });
+        this.messageContentService.sendMessage({
+          sender: this.currentUser.username,
+          messageType: MessageType.NOTIFICATION_CHANGE_NAME,
+          content: messageRoom.name,
+          messageRoomId: this.selectedMessageRoom.id
+        });
+        this.isShowEditGroupName = false;
       }, error: (error) => {
         console.log(error);
       }

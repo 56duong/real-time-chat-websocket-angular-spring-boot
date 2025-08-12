@@ -11,8 +11,8 @@
   font-family: var(--font-family);
   font-feature-settings: var(--font-feature-settings, normal);
   font-size: 1rem;
-  color: #334155;
-  background: #ffffff;
+  color: var(--surface-900);
+  background: transparent;
   padding: 0.5rem 0.75rem;
   border: 1px solid #cbd5e1;
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
@@ -187,6 +187,12 @@ body {
   rotate: -45deg;
   color: var(--primary-color);
   font-size: 1.75rem;
+}
+
+.chat-footer .send-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .chat-footer .emoji {
