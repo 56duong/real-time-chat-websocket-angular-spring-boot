@@ -120,24 +120,26 @@ export class MessagesComponent {
   selectMessageRoom(room: MessageRoom) {
     console.log(room);
     if(this.selectedMessageRoom.id) {
-      this.updateLastSeen(this.selectedMessageRoom.id, this.currentUser.username);
+      this.updateLastSeen(this.selectedMessageRoom.id, this.currentUser.username, true);
     }
-    this.selectedMessageRoom = room;
-    if(this.selectedMessageRoom.id) {
-      this.updateLastSeen(this.selectedMessageRoom.id, this.currentUser.username);
-    }
-
-    this.selectedMessageRoom.isAdmin = this.selectedMessageRoom.members?.filter(u => u.username === this.currentUser?.username && u.isAdmin)[0] ? true : false;
-
-    this.getMessagesByRoomId();
+    this.getMessagesByRoomId(room);
   }
 
 
 
-  getMessagesByRoomId() {
-    this.messageContentService.getMessagesByRoomId(this.selectedMessageRoom.id).subscribe({
+  getMessagesByRoomId(room: MessageRoom) {
+    this.messageContentService.getMessagesByRoomId(room.id).subscribe({
       next: (messages: MessageContent[]) => {
-        this.selectedMessageRoom.messages = messages;
+        this.selectedMessageRoom = {
+          ...room,
+          messages: messages
+        }
+        if(this.selectedMessageRoom.id) {
+          this.updateLastSeen(room.id, this.currentUser.username);
+        }
+        
+        this.selectedMessageRoom.isAdmin = this.selectedMessageRoom.members?.filter(u => u.username === this.currentUser?.username && u.isAdmin)[0] ? true : false;
+
         this.scrollToBottom();
       }, error: (error: any) => {
         console.log(error);
@@ -217,10 +219,26 @@ export class MessagesComponent {
 
 
 
-  updateLastSeen(roomId?: string, username?: string) {
+  updateLastSeen(roomId?: string, username?: string, updateLocal?: boolean) {
     this.messageRoomMemberService.updateLastSeen(roomId, username).subscribe({
       next: (member: MessageRoomMember) => {
-        this.selectedMessageRoom.unseenCount = 0;
+        const indexRoom = this.messageRooms.findIndex(r => r.id === roomId);
+        if(indexRoom !== -1) {
+          this.messageRooms[indexRoom].unseenCount = 0;
+        }
+        if(updateLocal) {
+          const indexMember: any = this.messageRooms[indexRoom].members?.findIndex(m => m.username === this.currentUser.username);
+          if(
+            indexMember !== -1 
+            && indexRoom !== -1 
+            && this.messageRooms 
+            && this.messageRooms[indexRoom] 
+            && this.messageRooms[indexRoom].members 
+            && this.messageRooms[indexRoom].members![indexMember]
+          ) {
+            this.messageRooms[indexRoom].members![indexMember].lastSeen = member.lastSeen;
+          }
+        }
       }, error: (error: any) => {
         console.log(error);
       }
@@ -249,6 +267,12 @@ export class MessagesComponent {
       const chat = document.getElementById('chat-area');
       if(chat) chat.scrollTop = chat.scrollHeight;
     }, 100);
+  }
+
+
+  scrollToUnseenBreakpoint() {
+    const unseen = document.getElementById('unseen-breakpoint');
+    if(unseen) unseen.scrollIntoView({ behavior: 'smooth'});
   }
 
 

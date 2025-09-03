@@ -5,6 +5,7 @@ export interface MessageContent {
   messageType?: MessageType;
   messageRoomId?: string;
   sender?: string;
+  avatarUrl?: string;
 }
 
 export enum MessageType {

@@ -1,8 +1,12 @@
 <div class="message-list">
-  <app-message-content
-    *ngFor="let messageContent of selectedMessageRoom?.messages"
-    [messageContent]="messageContent"
-    [currentUser]="currentUser"
-    [isGroup]="selectedMessageRoom?.isGroup">
-  </app-message-content>
+  <ng-container *ngFor="let messageContent of selectedMessageRoom?.messages; let i = index">
+    <div *ngIf="i === unseenMessageIndex" id="unseen-breakpoint" class="text-400 text-center my-3">
+      ____________________ Unseen messages ____________________
+    </div>
+    <app-message-content
+      [messageContent]="messageContent"
+      [currentUser]="currentUser"
+      [isGroup]="selectedMessageRoom?.isGroup">
+    </app-message-content>
+  </ng-container>
 </div>

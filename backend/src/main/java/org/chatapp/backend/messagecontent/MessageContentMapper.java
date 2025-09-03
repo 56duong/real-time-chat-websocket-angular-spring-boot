@@ -23,6 +23,7 @@ public class MessageContentMapper {
         messageContentDTO.setMessageType(messageContent.getMessageType());
         messageContentDTO.setMessageRoomId(messageContent.getMessageRoom().getId());
         messageContentDTO.setSender(messageContent.getUser().getUsername());
+        messageContentDTO.setAvatarUrl(messageContent.getUser().getAvatarUrl());
         return messageContentDTO;
     }
 

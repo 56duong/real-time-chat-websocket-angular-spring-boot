@@ -12,6 +12,7 @@ import java.util.UUID;
 public class MessageRoomDTO {
     private UUID id;
     private String name;
+    private String avatarUrl;
     private Boolean isGroup;
     private LocalDateTime createdDate;
     private String createdById;

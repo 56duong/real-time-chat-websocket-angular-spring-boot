@@ -99,7 +99,21 @@ public class MessageRoomService {
                     final MessageContentDTO lastMessage = messageContentService.getLastMessage(roomDTO.getId());
                     roomDTO.setLastMessage(lastMessage);
                     final List<MessageRoomMemberDTO> members = messageRoomMemberService.findByMessageRoomId(roomDTO.getId());
+                    members.forEach(member -> {
+                        final String avatarUrl = userRepository.findById(member.getUsername())
+                                .map(User::getAvatarUrl)
+                                .orElse("");
+                        member.setAvatarUrl(avatarUrl);
+                    });
                     roomDTO.setMembers(members);
+                    if(!roomDTO.getIsGroup()) {
+                        final String avatarUrl = members.stream()
+                                .filter(mb -> !mb.getUsername().equals(username))
+                                .map(MessageRoomMemberDTO::getAvatarUrl)
+                                .findFirst()
+                                .orElse("");
+                        roomDTO.setAvatarUrl(avatarUrl);
+                    }
                     return roomDTO;
                 })
                 .toList();

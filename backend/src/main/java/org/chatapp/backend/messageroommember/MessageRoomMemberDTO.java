@@ -9,6 +9,7 @@ import java.util.UUID;
 public class MessageRoomMemberDTO {
     private UUID messageRoomId;
     private String username;
+    private String avatarUrl;
     private Boolean isAdmin;
     private LocalDateTime lastSeen;
     private LocalDateTime lastLogin;

@@ -5,6 +5,7 @@
   <ng-container *ngIf="!room.isGroup">
     <ng-container *ngFor="let member of room.members">
       <app-avatar *ngIf="member.username !== currentUser.username"
+        [avatarUrl]="room.avatarUrl"
         [username]="member.username"
         [width]="'44px'">
       </app-avatar>
@@ -14,7 +15,8 @@
   <div *ngIf="room.isGroup">
     <app-avatar
       [width]="'44px'"
-      [isOnline]="userService.getRoomStatus(room) === 'Online'">
+      [isOnline]="userService.getRoomStatus(room) === 'Online'"
+      [isGroup]="true">
     </app-avatar>
   </div>
   <!-- Last message -->

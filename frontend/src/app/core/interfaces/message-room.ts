@@ -4,6 +4,7 @@ import { MessageRoomMember } from "./message-room-member";
 export interface MessageRoom {
   id?: string;
   name?: string;
+  avatarUrl?: string;
   isGroup?: boolean;
   createdDate?: string;
   createdById?: string;

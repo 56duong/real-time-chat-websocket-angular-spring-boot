@@ -64,7 +64,7 @@
             style="flex-grow: 1;">
           </app-message-contents-list>
           <!-- Scroll to Unseen messages -->
-          <div style="text-align: center;">
+          <div (click)="scrollToUnseenBreakpoint()" style="text-align: center;">
             <span class="material-symbols-rounded">arrow_upward</span>
           </div>
           <!-- Chat footer -->
@@ -90,14 +90,17 @@
             <ng-container *ngIf="!selectedMessageRoom.isGroup">
               <ng-container *ngFor="let member of selectedMessageRoom.members">
                 <app-avatar *ngIf="member.username !== currentUser.username"
+                  [avatarUrl]="selectedMessageRoom.avatarUrl"
                   [username]="member.username"
                   [width]="'56px'">
                 </app-avatar>
               </ng-container>
             </ng-container>
             <div *ngIf="selectedMessageRoom.isGroup">
-              <img style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%;"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" alt="">
+                <app-avatar
+                  [width]="'56px'"
+                  [isGroup]="true">
+                </app-avatar>
             </div>
 
             <div class="detail-title">
@@ -135,6 +138,7 @@
                 *ngFor="let member of selectedMessageRoom.members">
                 <app-avatar
                   [username]="member.username"
+                  [avatarUrl]="member.avatarUrl"
                   [width]="'44px'">
                 </app-avatar>
                 <div class="detail-member-detail">

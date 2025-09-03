@@ -13,4 +13,5 @@ public class MessageContentDTO {
     private MessageType messageType;
     private UUID messageRoomId;
     private String sender;
+    private String avatarUrl;
 }
