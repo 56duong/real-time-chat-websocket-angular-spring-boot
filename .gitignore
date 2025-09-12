@@ -1,1 +1,2 @@
 /backend/uploads
+backend/src/main/resources/application-prod.properties
