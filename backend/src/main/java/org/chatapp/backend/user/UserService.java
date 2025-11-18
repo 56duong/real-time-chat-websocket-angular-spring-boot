@@ -103,6 +103,18 @@ public class UserService {
         return user.map(u -> userMapper.toDTO(u, new UserDTO())).orElse(null);
     }
 
+
+
+    public UserDTO updateAvatarUrl(final String avatarUrl, final String username) {
+        final Optional<User> user = userRepository.findById(username);
+        if(user.isPresent())  {
+            // upload
+            user.get().setAvatarUrl(avatarUrl);
+            userRepository.save(user.get());
+        }
+        return user.map(u -> userMapper.toDTO(u, new UserDTO())).orElse(null);
+    }
+
 }
 
 

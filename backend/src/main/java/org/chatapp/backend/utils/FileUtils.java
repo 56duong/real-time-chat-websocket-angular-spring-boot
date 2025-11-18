@@ -19,6 +19,12 @@ public class FileUtils {
     }
     public static String BACKEND_URL;
 
+    @Value("${spring.profiles.active:dev}")
+    public void setActiveProfile(String profile) {
+        IS_PRODUCTION = profile.equalsIgnoreCase("prod");
+    }
+    public static Boolean IS_PRODUCTION;
+
     public final static String FOLDER_UPLOAD = "uploads";
     public final static String FOLDER_AVATAR = "avatars";
 
@@ -65,7 +71,12 @@ public class FileUtils {
 
 
     public static String getAvatarUrl(final String fileName) {
-        return BACKEND_URL + "/images/" + FOLDER_AVATAR + "/" + fileName;
+        if(!IS_PRODUCTION) {
+            return BACKEND_URL + "/images/" + FOLDER_AVATAR + "/" + fileName;
+        }
+        else {
+            return fileName;
+        }
     }
 
 }

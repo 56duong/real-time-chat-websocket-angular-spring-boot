@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
-import { Observable, Subject } from 'rxjs';
+import { firstValueFrom, from, Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { CompatClient, Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
-import { MessageRoomMember } from '../interfaces/message-room-member';
 import { MessageRoom } from '../interfaces/message-room';
 import { TimeAgoPipe } from '../pipes/time-ago.pipe';
+import { GitStorage } from 'github-storage';
 
 @Injectable({
   providedIn: 'root'
@@ -158,8 +158,37 @@ export class UserService {
 
 
   uploadAvatar(formData: FormData): Observable<User> {
-    const url = this.apiUrl + '/avatar';
-    return this.http.post<User>(url, formData);
+    if(!environment.production) {
+      const url = this.apiUrl + '/avatar';
+      return this.http.post<User>(url, formData);
+    }
+    else {
+      return from((async () => {
+        const db = new GitStorage(
+          '56duong',
+          'real-time-chat-websocket-angular-spring-boot',
+          {
+            token: environment.github_token,
+          }
+        );
+
+        const file = formData.get('file') as File;
+        if(!file) throw new Error('No file provided');
+
+        const base64 = await db.fileToBase64(file);
+        const path = 'avatars/' + file.name;
+        const uploaded = await db.saveFile(base64, path);
+console.log(uploaded);
+        if(uploaded.content?.download_url) {
+          const url = this.apiUrl + '/update-avatar-url';
+          const newFormData = new FormData();
+          newFormData.set('file', uploaded.content.download_url);
+          newFormData.set('username', formData.get('username') as string);
+          return await firstValueFrom(this.http.post<User>(url, newFormData));
+        }
+        throw new Error('Upload avatar failed');
+      })());
+    }
   }
 
 }

@@ -58,4 +58,12 @@ public class UserController {
         return ResponseEntity.ok(userService.uploadAvatar(file, username));
     }
 
+
+
+    @PostMapping("/update-avatar-url")
+    public ResponseEntity<UserDTO> updateAvatarUrl(@RequestParam final String file,
+                                                   @RequestParam final String username) {
+        return ResponseEntity.ok(userService.updateAvatarUrl(file, username));
+    }
+
 }
