@@ -176,10 +176,12 @@ export class UserService {
         if(!file) throw new Error('No file provided');
 
         const base64 = await db.fileToBase64(file);
-        const path = 'avatars/' + file.name;
-        const uploaded = await db.saveFile(base64, path);
+        const path = 'storage/avatars/' + db.generateUuid('v4') + file.name.substring(file.name.lastIndexOf('.'));
+        const uploaded = await db.saveFile(base64, path, 'Upload avatar', 'master');
 console.log(uploaded);
         if(uploaded.content?.download_url) {
+          const deletePath: any = this.getFromLocalStorage()?.avatarUrl;
+          await db.deleteFile(db.getPathFromDownloadUrl(deletePath) ?? '', 'master');
           const url = this.apiUrl + '/update-avatar-url';
           const newFormData = new FormData();
           newFormData.set('file', uploaded.content.download_url);
