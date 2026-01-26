@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://my-deploy-url/',
-  apiVersion: 'api/v14/',
-  webSocketUrl: 'api/ws'
+  apiUrl: 'https://real-time-chat-websocket-angular-spring.onrender.com/',
+  apiVersion: 'api/1/',
+  webSocketUrl: 'api/ws',
 }
