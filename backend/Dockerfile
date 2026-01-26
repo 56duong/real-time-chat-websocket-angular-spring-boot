@@ -2,6 +2,7 @@
 FROM eclipse-temurin:17-jdk-alpine as build
 WORKDIR /app
 COPY . .
+RUN chmod +x mvnw
 RUN ./mvnw install -DskipTests
 
 # 2. run the jar
