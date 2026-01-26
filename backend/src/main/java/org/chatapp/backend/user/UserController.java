@@ -82,7 +82,7 @@ public class UserController {
             String newFileName = UUID.randomUUID() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
             String path = "storage/avatar/" + newFileName;
             // 3. upload
-            String githubApiUrl = "https://api.github.com/repos/" + owner + "/" + repo + "/" + "/contents" + path;
+            String githubApiUrl = "https://api.github.com/repos/" + owner + "/" + repo + "/" + "/contents/" + path;
             String jsonBody = "{\"message\": \"Upload avatar\", \"content\": \"" + base64 + "\"}";
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + githubToken);
