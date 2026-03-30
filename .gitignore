@@ -1,1 +1,4 @@
 /backend/uploads
+/build-windows/node_modules
+/build-windows/build/dist
+/build-windows/dist

@@ -1,0 +1,29 @@
+{
+  "name": "build-windows",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^22.3.27",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "fun.realtimechat.chatapp",
+    "productName": "Chat App",
+    "win": {
+      "icon": "build/icon.png"
+    },
+    "files": [
+      "main.js",
+      "build/**/**/*"
+    ]
+  }
+}
